@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_searchfilter_anker_searchfilter_anker,searchfilter_anker.searchfilter_anker,model_searchfilter_anker_searchfilter_anker,,1,0,0,0
