@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="mrp_bom_form_view_inherited"     model="ir.ui.view">
+        <field name="name">mrp.bom.form- User Extension</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id"       ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="/form/sheet/group" position="inside">
+               <group colspan="2" col="2">
+                   <separator string="Kalkulation" colspan="2" />
+
+                                    <field name="anzahl" />
+
+
+                                    <button name="berechne" type="object" string="Verfügbarkeit prüfen"  class="oe_highlight" />
+
+
+
+
+
+                 </group>
+            </xpath>
+            <xpath expr="//field[@name='operation_id']" position="after">
+                    <field name="bestand" colors="red: bestand &lt;= noetig "/>
+                    <field name="noetig" colors="red: bestand &lt;= noetig "/>
+            </xpath>
+
+
+        </field>
+
+    </record>
+
+
+</odoo>
