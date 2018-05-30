@@ -7,11 +7,7 @@
       <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
       <field name="arch" type="xml">
         <xpath expr="//search" position="inside">
-          <!-- This field will show up on the default filters
-               &lt; is the XML encoding for < and &gt; is the XML encoding for > -->
-          <filter string="Total &lt; 1000" name="total_under_1000" domain="[('amount_total', '&lt;', 1000)]"/>
-          <filter string="Total &gt;= 1000" name="total_above_1000" domain="[('amount_total', '&gt;=', 1000)]"/>
-        </xpath>
+          </xpath>
       </field>
     </record>
 <!--#####################################################################################-->
@@ -22,11 +18,9 @@
       <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
       <field name="arch" type="xml">
         <xpath expr="//search" position="inside">
-          <!-- This field will show up on the default filters
-               &lt; is the XML encoding for < and &gt; is the XML encoding for > -->
-        <!--<filter string="Verspäteddt" name="toolddate" domain="[('is_shipped','=',False),('x_ABzum','!=',False),('x_ABzum','<=', datetime.today())]"/>-->
-           <filter string="Verspätet" name="toolate" domain="[('x_ABzum','&lt;', datetime.datetime.today()),('is_geliefert','=',False)]"/>
-            <filter string="Geliefert" name="toolate" domain="[('is_geliefert','=',True)]"/>
+             <filter string="Verspätet" name="toolate" domain="[('x_ABzum','!=',False),('x_ABzum','&lt;', current_date),('is_geliefert','!=',True)]"/>
+             <filter string="AB fehlend" name="abfristfehlend" domain="[('ab_frist','&lt;', current_date),('ab_frist','!=',False),('x_ABzum','=',False),('date_planned','&gt;','2018-04-10 11:55:21'),('is_geliefert','!=',True)]"/>
+
         </xpath>
       </field>
     </record>
@@ -39,9 +33,13 @@
      <field name="inherit_id" ref="purchase.purchase_order_tree"/>
      <field name="arch" type="xml">
           <xpath expr="//tree" position="attributes">
-              <attribute name="colors"> red: not is_geliefert and x_ABzum and x_ABzum &lt; current_date </attribute>
-              <attribute name="colors"> red: not x_ABzum and date_planned &lt; current_date </attribute>
-
+            <attribute name="decoration-warning"> ab_frist &lt; current_date and not x_ABzum and not is_geliefert and date_planned &gt; '2018-04-10 11:55:21' </attribute>
+             <attribute name="decoration-danger">not is_geliefert and x_ABzum and x_ABzum &lt; current_date</attribute>
+             <attribute name="decoration-bf"> ab_frist &lt; current_date and not x_ABzum and not is_geliefert and date_planned &gt; '2018-04-10 11:55:21' or not is_geliefert and x_ABzum and x_ABzum &lt; current_date</attribute>
+          </xpath>
+         <xpath expr="//tree" position="inside">
+                <field name="is_geliefert"/>
+                <field name="ab_frist" invisible="1"/>
           </xpath>
      </field>
 </record>
